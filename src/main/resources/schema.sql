@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS adjunto (
 -- Fin schema.sql
 
 -- Asegurar columnas necesarias para la entidad `Mensaje` cuando se actualiza desde código
-ALTER TABLE mensaje ADD COLUMN IF NOT EXISTS destinatarioExterno VARCHAR(255) DEFAULT NULL;
+ALTER TABLE mensaje ADD COLUMN destinatarioExterno VARCHAR(255);
 ALTER TABLE mensaje ADD COLUMN IF NOT EXISTS idPadre BIGINT DEFAULT NULL;
 
 -- Nota: `id_padre` puede existir según versiones anteriores; `idPadre` se añade para compatibilidad
