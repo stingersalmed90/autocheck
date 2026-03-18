@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle del Envío</title>
+    <style>
+        body { background: #0f0f0f; color: #fff; font-family: Arial; }
+        .info { background:#1a1a1a; padding:20px; border-radius:10px; }
+        .label { color:#ffcc00; }
+    </style>
+</head>
+<body>
+
+<a class="btn" th:href="@{/transporte}">⬅ Volver</a>
+
+<h1>📦 Detalle del Envío</h1>
+
+<div class="info">
+    <p><span class="label">Origen: </span> <span th:text="${envio.origen}"></span></p>
+    <p><span class="label">Destino: </span> <span th:text="${envio.destino}"></span></p>
+    <p><span class="label">Estado: </span> <span th:text="${envio.estado}"></span></p>
+    <p><span class="label">ETA: </span> <span th:text="${envio.eta}"></span></p>
+</div>
+
+</body>
+</html>
+

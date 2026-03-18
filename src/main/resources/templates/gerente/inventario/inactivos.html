@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <title>Inventario Inactivo - Gerente</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <style>
+        .main {
+            padding: 20px;
+            margin-left: 250px;
+        }
+        
+        .sidebar {
+            width: 250px;
+            height: 100%;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: #333;
+            color: white;
+            padding: 20px;
+        }
+        
+        .sidebar h3 {
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .sidebar li {
+            margin-bottom: 10px;
+        }
+        
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        .sidebar a:hover {
+            background: #444;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #f4f4f4;
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+            margin: 2px;
+        }
+        
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .btn-warning {
+            background-color: #ffc107;
+            color: #000;
+        }
+        
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        
+        .status-active {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .status-inactive {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .alert-info {
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+            color: #0c5460;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+        }
+
+        .nav-tabs a {
+            text-decoration: none;
+            color: #666;
+            padding: 8px 16px;
+            border-radius: 4px;
+        }
+
+        .nav-tabs a:hover {
+            background-color: #f8f9fa;
+        }
+
+        .nav-tabs a.active {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <h3>Panel de Control</h3>
+        <nav>
+            <ul>
+                <li><a th:href="@{/gerente}">Inicio Gerente</a></li>
+                <li><a th:href="@{/gerente/vehiculos}">Vehículos</a></li>
+                <li><a th:href="@{/gerente/inventario}" class="active">Inventario</a></li>
+                <li><a th:href="@{/gerente/notificaciones}">Notificaciones</a></li>
+                <li><a th:href="@{/gerente/novedades}">Novedades</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="main">
+        <h1><i class="fa-solid fa-warehouse"></i> Gestión de Inventario</h1>
+
+        <div class="nav-tabs">
+            <a th:href="@{/gerente/inventario}" class="btn">
+                <i class="fas fa-box"></i> Inventario Activo
+            </a>
+            <a th:href="@{/gerente/inventario/inactivos}" class="btn btn-warning active">
+                <i class="fas fa-archive"></i> Inventario Inactivo
+            </a>
+        </div>
+
+        <div class="action-buttons" style="margin-bottom: 20px;">
+            <a th:href="@{/gerente/inventario/crear}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Nuevo Vehículo
+            </a>
+        </div>
+
+        <div class="alert alert-info" th:if="${#lists.isEmpty(inventarios)}">
+            <i class="fas fa-info-circle"></i> No hay vehículos inactivos en el inventario.
+        </div>
+
+        <table th:if="${not #lists.isEmpty(inventarios)}">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Chasis</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Año</th>
+                    <th>Color</th>
+                    <th>Ubicación</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="inv : ${inventarios}">
+                    <td th:text="${inv.idInventario}">1</td>
+                    <td th:text="${inv.chasis}">---</td>
+                    <td th:text="${inv.marca}">---</td>
+                    <td th:text="${inv.modelo}">---</td>
+                    <td th:text="${inv.anio}">2025</td>
+                    <td th:text="${inv.color}">---</td>
+                    <td th:text="${inv.ubicacionActual}">Bodega</td>
+                    <td>
+                        <span class="status-badge status-inactive">
+                            <i class="fas fa-times-circle"></i> Inactivo
+                        </span>
+                    </td>
+                    <td>
+                        <div class="actions">
+                            <form th:action="@{/gerente/inventario/cambiar-estado/{id}(id=${inv.idInventario})}" method="post">
+                                <button type="submit" class="btn btn-restore" 
+                                        onclick="return confirm('¿Estás seguro de que deseas reactivar este vehículo?');">
+                                    <i class="fas fa-undo"></i> Reactivar
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

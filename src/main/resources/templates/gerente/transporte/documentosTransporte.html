@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Documentos del Envío</title>
+    <style>
+        body { background: #0f0f0f; color: #fff; font-family: Arial; }
+        .card { background: #1a1a1a; padding: 20px; border-radius: 10px; }
+        input { background: #2a2a2a; border: none; padding: 10px; border-radius: 8px; color: #fff; }
+        .btn { background: #ffcc00; padding: 10px 20px; border-radius: 8px; color: black; }
+    </style>
+</head>
+<body>
+
+<a class="btn" th:href="@{/transporte}">⬅ Volver</a>
+
+<h1>📄 Documentos del Transporte</h1>
+
+<div class="card">
+    <form th:action="@{/transporte/documentos/subir}" enctype="multipart/form-data" method="post">
+        <label>Subir Documento:</label>
+        <input type="file" name="archivo" required>
+        <button class="btn" type="submit">Subir</button>
+    </form>
+</div>
+
+</body>
+</html>
+

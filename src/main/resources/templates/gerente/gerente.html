@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Panel Gerente General</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    :root {
+      --blue-dark: #0A1D37;
+      --blue-secondary: #1C3B5A;
+      --gold: #F5A623;
+      --gray: #4A4A4A;
+      --white: #FFFFFF;
+      --bg: #f4f6f9;
+      --color-danger: #ef4444;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--blue-dark);
+      margin: 0;
+      display: flex;
+      min-height: 100vh;
+      margin-left: 260px;
+    }
+    .sidebar {
+      width: 260px;
+      height: 100vh;
+      background: var(--blue-dark);
+      color: var(--white);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: fixed;
+      left: 0;
+      top: 0;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+    .sidebar h3 { 
+      color: var(--gold); 
+      margin-bottom: 1.2rem; 
+      text-align: center;
+      font-size: 1.1rem;
+    }
+    .sidebar nav ul { list-style: none; padding: 0; margin: 0; }
+    .sidebar nav ul li { margin: .6rem 0; }
+    .sidebar nav ul li a {
+      text-decoration: none; 
+      color: #dcdcdc;
+      display: flex; 
+      align-items: center; 
+      gap: .8rem;
+      padding: 1rem 1.5rem; 
+      border-radius: 8px;
+      transition: background 0.3s, color 0.3s;
+    }
+    .sidebar nav ul li a:hover { 
+      background: var(--blue-secondary); 
+      color: var(--gold); 
+    }
+
+    /* Dropdown menu styles */
+    .dropdown-menu-item {
+      position: relative;
+    }
+    
+    .dropdown-submenu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      position: absolute;
+      left: 100%;
+      top: 0;
+      background: var(--blue-secondary);
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      min-width: 200px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(-10px);
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+    
+    .dropdown-menu-item:hover .dropdown-submenu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+    }
+    
+    .dropdown-submenu li {
+      margin: 0;
+    }
+    
+    .dropdown-submenu li a {
+      padding: 0.8rem 1rem;
+      border-radius: 8px;
+      margin: 0.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      color: #dcdcdc;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    
+    .dropdown-submenu li a:hover {
+      background: rgba(245, 166, 35, 0.1);
+      color: var(--gold);
+    }
+    
+    .dropdown-toggle::after {
+      content: '▶';
+      margin-left: auto;
+      font-size: 0.8rem;
+      transition: transform 0.3s ease;
+    }
+    
+    .dropdown-menu-item:hover .dropdown-toggle::after {
+      transform: rotate(90deg);
+      color: var(--gold);
+    }
+
+    /* Notification badge */
+    .notification-badge {
+      background: #ef4444;
+      color: white;
+      border-radius: 50%;
+      padding: 0.2rem 0.5rem;
+      font-size: 0.7rem;
+      font-weight: bold;
+      margin-left: 0.5rem;
+      min-width: 1.2rem;
+      text-align: center;
+      display: inline-block;
+    }
+    .logout-btn {
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      gap: .6rem;
+      width: 100%; 
+      background: #ef4444; 
+      color: white;
+      padding: 0.8rem; 
+      border-radius: 8px; 
+      border: none;
+      text-decoration: none;
+      font-weight: bold; 
+      margin-top: 1.5rem; 
+      transition: background 0.3s;
+      cursor: pointer;
+    }
+    .logout-btn:hover { background: #d32f2f; }
+
+    .main { 
+      flex: 1; 
+      padding: 2rem; 
+      overflow-y: auto; 
+    }
+    .content-header { 
+      text-align: center; 
+      margin-bottom: 2rem; 
+    }
+    .content-header h1 { 
+      color: var(--blue-dark); 
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+    .content-header p { 
+      color: var(--gray); 
+    }
+
+    .card {
+      background: var(--white); 
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08); 
+      padding: 1.5rem; 
+      margin-bottom: 1.5rem;
+      transition: transform 0.2s;
+    }
+    .card:hover { transform: translateY(-3px); }
+    .section-title { 
+      display: flex; 
+      align-items: center; 
+      gap: .6rem; 
+      margin-bottom: .75rem; 
+    }
+    .section-title h2 { 
+      font-size: 1.3rem; 
+      color: var(--blue-dark);
+      margin: 0;
+    }
+    .section-title i {
+      color: var(--gold);
+      font-size: 1.4rem;
+    }
+
+    .btn {
+      background: var(--gold); 
+      color: var(--blue-dark); 
+      padding: .6rem 1.2rem;
+      border-radius: 8px; 
+      font-weight: 600; 
+      text-decoration: none;
+      display: inline-flex; 
+      gap: .5rem; 
+      align-items: center;
+      transition: background 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+    .btn:hover { background: #e2b03f; }
+    .btn.ghost { 
+      background: transparent; 
+      border: 1px solid var(--gold); 
+      color: var(--blue-dark); 
+    }
+    .btn.ghost:hover { 
+      background: var(--gold); 
+      color: var(--blue-dark); 
+    }
+
+    footer { 
+      margin-top: 2rem; 
+      color: var(--gray); 
+      font-size: .85rem; 
+      text-align: center; 
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div>
+      <h3>Panel de Control</h3>
+      <nav>
+        <ul>
+          <li><a th:href="@{/gerente}"><i class="fa-solid fa-house"></i> Inicio</a></li>
+          <li><a th:href="@{/gerente/inventario}"><i class="fa-solid fa-warehouse"></i> Inventario</a></li>
+          <li><a th:href="@{/gerente/vehiculos}"><i class="fa-solid fa-car"></i> Vehículos</a></li>
+          <li><a th:href="@{/gerente/notificaciones}"><i class="fa-solid fa-bell"></i> Notificaciones</a></li>
+          <li><a th:href="@{/gerente/novedades}"><i class="fa-solid fa-bullhorn"></i> Novedades</a></li>
+          <li class="dropdown-menu-item">
+            <a th:href="@{/correo/inbox}" class="dropdown-toggle">
+              <i class="fa-solid fa-envelope"></i> Correo
+              <span th:if="${unreadCount != null and unreadCount > 0}" class="notification-badge" th:text="${unreadCount}">0</span>
+            </a>
+            <ul class="dropdown-submenu">
+              <li><a th:href="@{/correo/inbox}">
+                <i class="fas fa-inbox"></i> Bandeja de entrada
+                <span th:if="${unreadCount != null and unreadCount > 0}" class="notification-badge" th:text="${unreadCount}">0</span>
+              </a></li>
+              <li><a th:href="@{/correo/enviados}"><i class="fas fa-paper-plane"></i> Enviados</a></li>
+              <li><a th:href="@{/correo/papelera}"><i class="fas fa-trash"></i> Papelera</a></li>
+              <li><a th:href="@{/email/enviar}"><i class="fas fa-users"></i> Correos Masivos</a></li>
+            </ul>
+          </li>           
+        </ul> 
+      </nav>
+    </div>
+    <form th:action="@{/logout}" method="post" style="margin:0;">
+      <button type="submit" class="logout-btn">
+        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+      </button>
+    </form>
+  </aside>
+
+  <!-- Contenido -->
+  <main class="main">
+    <div th:if="${inventarios}">
+      <!-- Vista de Inventario -->
+      <div class="content-header">
+        <h1><i class="fa-solid fa-warehouse"></i> Gestión de Inventario</h1>
+        <p>Administración de vehículos en inventario</p>
+      </div>
+
+      <div class="nav-tabs" style="display: flex; gap: 10px; margin-bottom: 20px;">
+        <a th:href="@{${esAdmin ? '/admin/inventario' : '/gerente/inventario'}}" 
+           class="btn" th:classappend="${!vistaInactivos ? 'ghost' : ''}">
+          <i class="fas fa-box"></i> Inventario Activo
+        </a>
+        <a th:href="@{${esAdmin ? '/admin/inventario/inactivos' : '/gerente/inventario/inactivos'}}" 
+           class="btn" th:classappend="${vistaInactivos ? 'ghost' : ''}">
+          <i class="fas fa-archive"></i> Inventario Inactivo
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="section-title">
+          <h2>
+            <i class="fas" th:classappend="${vistaInactivos ? 'fa-archive' : 'fa-box'}"></i>
+            <span th:text="${vistaInactivos ? 'Vehículos Inactivos' : 'Vehículos Activos'}"></span>
+          </h2>
+        </div>
+
+        <div class="action-buttons" style="margin-bottom: 20px;">
+          <a th:href="@{/gerente/inventario/crear}" class="btn">
+            <i class="fas fa-plus"></i> Nuevo Vehículo
+          </a>
+        </div>
+
+        <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Chasis</th>
+              <th>Marca</th>
+              <th>Modelo</th>
+              <th>Año</th>
+              <th>Color</th>
+              <th>Ubicación</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="inv : ${inventarios}">
+              <td th:text="${inv.idInventario}">1</td>
+              <td th:text="${inv.chasis}">---</td>
+              <td th:text="${inv.marca}">---</td>
+              <td th:text="${inv.modelo}">---</td>
+              <td th:text="${inv.anio}">2025</td>
+              <td th:text="${inv.color}">---</td>
+              <td th:text="${inv.ubicacionActual}">Bodega</td>
+              <td>
+                <span style="padding: 4px 8px; border-radius: 4px; font-size: 0.9em;"
+                      th:classappend="${inv.activo ? 'bg-success' : 'bg-danger'}">
+                  <i class="fas" th:classappend="${inv.activo ? 'fa-check-circle' : 'fa-times-circle'}"></i>
+                  <span th:text="${inv.activo ? 'Activo' : 'Inactivo'}"></span>
+                </span>
+              </td>
+              <td>
+                <div class="actions">
+                  <a th:href="@{${esAdmin ? '/admin/inventario/editar/' + inv.idInventario : '/gerente/inventario/editar/' + inv.idInventario}}" class="btn ghost">
+                    <i class="fas fa-edit"></i> Editar
+                  </a>
+                  <form th:action="@{${esAdmin ? '/admin/inventario/cambiar-estado/' + inv.idInventario : '/gerente/inventario/cambiar-estado/' + inv.idInventario}}"
+                        method="post" style="display:inline;">
+                    <button type="submit" class="btn ghost"
+                            th:onclick="'return confirm(\\'¿Estás seguro de ' + (${inv.activo ? 'desactivar' : 'activar'}) + ' este vehículo?\\');'">
+                      <i class="fas" th:classappend="${inv.activo ? 'fa-toggle-on' : 'fa-toggle-off'}"></i>
+                      <span th:text="${inv.activo ? 'Desactivar' : 'Activar'}"></span>
+                    </button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div th:unless="${inventarios}">
+      <div class="content-header">
+        <h1><i class="fa-solid fa-gear"></i> Gerente General</h1>
+        <p>Panel estratégico para supervisar y gestionar la operación logística.</p>
+      </div>
+
+      <!-- Reportes de vehículos -->
+      <section class="card">
+      <div class="section-title">
+        <h2><i class="fa-solid fa-chart-line"></i> Reportes de Vehículos</h2>
+      </div>
+      <p>Genera informes sobre el uso, mantenimiento y disponibilidad.</p>
+      <div class="actions">
+        <a class="btn"><i class="fa-solid fa-file-pdf"></i> Generar Reporte</a>
+        <a class="btn ghost"><i class="fa-solid fa-clock-rotate-left"></i> Historial de Uso</a>
+      </div>
+    </section>
+
+    <!-- Pedidos -->
+    <section class="card">
+      <div class="section-title">
+        <h2><i class="fa-solid fa-boxes-packing"></i> Gestión de Pedidos</h2>
+      </div>
+      <ul>
+        <li>📦 Revisar historial de pedidos completados</li>
+        <li>🚚 Ver pedidos de importación en curso</li>
+        <li>✅ Consultar estado del pedido (pendiente, en tránsito, entregado)</li>
+      </ul>
+      <div class="actions">
+        <a class="btn"><i class="fa-solid fa-list"></i> Pedidos Completados</a>
+        <a class="btn ghost"><i class="fa-solid fa-truck"></i> Pedidos en Curso</a>
+      </div>
+    </section>
+
+    <!-- Transporte -->
+    <section class="card">
+      <div class="section-title">
+        <h2><i class="fa-solid fa-truck"></i> Control de Transporte</h2>
+      </div>
+      <p>Aprueba o rechaza solicitudes y asigna pedidos a conductores.</p>
+      <div class="actions">
+        <a class="btn"><i class="fa-solid fa-check"></i> Aprobar Solicitud</a>
+        <a class="btn ghost"><i class="fa-solid fa-xmark"></i> Rechazar</a>
+        <a class="btn"><i class="fa-solid fa-user-tag"></i> Asignar Pedido</a>
+      </div>
+    </section>
+
+    <!-- Conductores -->
+    <section class="card">
+      <div class="section-title">
+        <h2><i class="fa-solid fa-id-card"></i> Conductores</h2>
+      </div>
+      <ul>
+        <li>👤 Ver lista de conductores y su información</li>
+        <li>🚗 Asignar vehículos a conductores</li>
+        <li>📅 Revisar disponibilidad y horarios</li>
+      </ul>
+      <div class="actions">
+        <a class="btn"><i class="fa-solid fa-users"></i> Lista Conductores</a>
+        <a class="btn ghost"><i class="fa-solid fa-car-side"></i> Asignar Vehículo</a>
+      </div>
+    </section>
+
+    <footer>
+      <small>Panel exclusivo para Gerente General — supervisión integral de operaciones.</small>
+    </footer>
+  </main>
+</body>
+</html>

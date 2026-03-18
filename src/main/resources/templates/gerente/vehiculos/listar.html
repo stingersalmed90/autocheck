@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Vehículos - Gerente</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    /* ===== Variables ===== */
+    :root {
+      --blue-dark: #0A1D37;
+      --blue-secondary: #1C3B5A;
+      --gold: #F5A623;
+      --gray: #4A4A4A;
+      --white: #FFFFFF;
+      --bg: #f4f6f9;
+      --color-danger: #ef4444;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--blue-dark);
+      margin: 0;
+      display: flex;
+      min-height: 100vh;
+      margin-left: 260px;
+    }
+
+    h1, h2 { margin: 0; }
+
+    /* ===== Sidebar ===== */
+    .sidebar {
+      width: 260px;
+      height: 100vh;
+      background: var(--blue-dark);
+      color: var(--white);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: fixed;
+      left: 0;
+      top: 0;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+    .sidebar h3 {
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+    .sidebar nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .sidebar nav ul li { margin: .8rem 0; }
+    .sidebar nav ul li a {
+      text-decoration: none;
+      color: #dcdcdc;
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+    .sidebar nav ul li a:hover {
+      background: var(--blue-secondary);
+      color: var(--gold);
+    }
+
+    /* ===== Logout button ===== */
+    .logout-btn {
+      margin-top: 2rem;
+      background: var(--color-danger);
+      color: #fff;
+      padding: .8rem 1rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+    }
+    .logout-btn:hover { background: #d32f2f; }
+
+    /* ===== Main ===== */
+    .main {
+      flex: 1;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+    .main h1 {
+      color: var(--blue-dark);
+      font-size: 2rem;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      font-weight: 700;
+    }
+
+    /* ===== Botones ===== */
+    .btn {
+      background: var(--gold);
+      color: var(--blue-dark);
+      padding: .6rem 1.2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    .btn:hover { background: #e2b03f; }
+    .btn-danger {
+      background: var(--color-danger);
+      color: #fff;
+    }
+    .btn-danger:hover { background: #d32f2f; }
+
+    .actions {
+      display: flex;
+      gap: .6rem;
+    }
+
+    /* ===== Tabla ===== */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--white);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      margin-top: 1.5rem;
+    }
+    thead {
+      background: var(--blue-secondary);
+      color: var(--white);
+    }
+    th, td {
+      padding: .9rem 1rem;
+      text-align: left;
+    }
+    tbody tr {
+      border-bottom: 1px solid #eee;
+      transition: background 0.3s;
+    }
+    tbody tr:hover {
+      background: #f9fafc;
+    }
+
+    /* ===== Footer ===== */
+    footer {
+      margin-top: 2rem;
+      color: var(--gray);
+      font-size: .85rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div>
+      <h3>Panel de Control</h3>
+      <nav>
+        <ul>
+          <li><a th:href="@{/gerente}"><i class="fa-solid fa-home"></i> Inicio</a></li>
+          <li><a th:href="@{/gerente/vehiculos}"><i class="fa-solid fa-car"></i> Vehículos</a></li>
+          <li><a th:href="@{/gerente/inventario}"><i class="fa-solid fa-box"></i> Inventario</a></li>
+          <li><a href="/gerente/novedades"><i class="fa-solid fa-bullhorn"></i> Novedades</a></li>
+                     <li><a href="/gerente/notificaciones"><i class="fa-solid fa-bell"></i> Notificaciones</a></li>
+
+        </ul>
+      </nav>
+    </div>
+    <!-- Botón de logout -->
+    <form th:action="@{/logout}" method="post" style="margin:0;">
+      <button type="submit" class="logout-btn">
+        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+      </button>
+    </form>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <h1><i class="fa-solid fa-car"></i> Vehículos</h1>
+
+    <a th:href="@{/gerente/vehiculos/crear}" class="btn">+ Nuevo Vehículo</a>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Chasis / Placa</th>
+          <th>Inventario</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="v : ${vehiculos}">
+          <td th:text="${v.idVehiculo}">1</td>
+          <td th:text="${v.chasis}">ABC123</td>
+          <td th:text="${v.inventario != null} ? ${v.inventario.marca + ' ' + v.inventario.modelo} : '---'">---</td>
+          <td>
+            <div class="actions">
+              <a th:href="@{/gerente/vehiculos/editar/{id}(id=${v.idVehiculo})}" class="btn">Editar</a>
+              <form th:action="@{/gerente/vehiculos/eliminar/{id}(id=${v.idVehiculo})}" method="post" style="display:inline;">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <button type="submit" class="btn btn-danger" onclick="return confirm('¿Eliminar?')">Eliminar</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Programación de Transporte</title>
+    <style>
+        body { background: #0f0f0f; color: #fff; font-family: Arial; }
+        .card {
+            background: #1a1a1a;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+        label { color: #ffcc00; }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: none;
+            background: #2a2a2a;
+            color: #fff;
+        }
+        .btn {
+            background: #ffcc00;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration:none;
+            color:black;
+        }
+        .btn:hover { background: #e6b800; }
+    </style>
+</head>
+<body>
+
+<a class="btn" th:href="@{/transporte}">&larr; Volver</a>
+
+<h1>🚚 Programación de Transporte Terrestre</h1>
+
+<div th:if="${mensaje}"
+     style="background:#143d0b; color:#b6ff9b; padding:12px; border-radius:8px; margin-top:15px;">
+    <p th:text="${mensaje}"></p>
+</div>
+
+<div class="card">
+    <form th:action="@{/transporte/programar}" method="post">
+        
+        <label>Tipo de Envío:</label>
+        <select name="tipoEnvio" required>
+            <option value="TERRESTRE">Transporte Terrestre</option>
+            <option value="MARITIMO">Transporte Marítimo</option>
+            <option value="AEREO">Transporte Aéreo</option>
+        </select>
+
+
+        <label>Camión:</label>
+        <input type="text" name="camion" placeholder="Placa del camión" required>
+
+        <label>Conductor:</label>
+        <input type="text" name="conductor" placeholder="Nombre del conductor" required>
+
+        <label>Fecha Programada:</label>
+        <input type="date" name="fecha" required>
+
+        <button class="btn" type="submit">Programar</button>
+    </form>
+</div>
+
+</body>
+</html>

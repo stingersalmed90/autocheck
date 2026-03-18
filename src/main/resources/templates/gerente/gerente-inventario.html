@@ -1,0 +1,297 @@
+```html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <title>Inventario - Gerente</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    :root {
+      --blue-dark: #0A1D37;
+      --blue-secondary: #1C3B5A;
+      --gold: #F5A623;
+      --gray: #4A4A4A;
+      --white: #FFFFFF;
+      --bg: #f4f6f9;
+      --color-danger: #ef4444;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--blue-dark);
+      margin: 0;
+      display: flex;
+      min-height: 100vh;
+      margin-left: 260px;
+    }
+
+    /* --- SIDEBAR --- */
+    .sidebar {
+      width: 260px;
+      height: 100vh;
+      background: var(--blue-dark);
+      color: var(--white);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    .sidebar h3 {
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .sidebar li {
+      margin-bottom: .8rem;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: #dcdcdc;
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .sidebar a:hover {
+      background: var(--blue-secondary);
+      color: var(--gold);
+    }
+
+    /* --- MAIN --- */
+    .main {
+      flex: 1;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+
+    h1 {
+      color: var(--blue-dark);
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+    }
+
+    /* --- NAV TABS --- */
+    .nav-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      background: var(--gold);
+      color: var(--blue-dark);
+      padding: .6rem 1.2rem;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn:hover { background: #e2b03f; }
+
+    .btn.ghost {
+      background: transparent;
+      border: 2px solid var(--gold);
+      color: var(--blue-dark);
+    }
+
+    .btn.ghost:hover {
+      background: var(--gold);
+      color: var(--blue-dark);
+      box-shadow: 0 0 12px rgba(245, 166, 35, 0.3);
+      transform: translateY(-2px);
+    }
+
+    /* --- TABLE --- */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--white);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 14px;
+      text-align: left;
+    }
+
+    th {
+      background: var(--blue-secondary);
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+
+    tr:nth-child(even) {
+      background: #f9fafc;
+    }
+
+    tr:hover {
+      background: #f0f2f5;
+    }
+
+    /* --- ESTADOS --- */
+    .status-badge {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.9em;
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+    }
+
+    .status-active {
+      background-color: #2e7d32;
+      color: white;
+    }
+
+    .status-inactive {
+      background-color: var(--color-danger);
+      color: white;
+    }
+
+    /* --- ACCIONES --- */
+    .actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: nowrap;
+    }
+
+    /* Evita que los botones se escondan o se corten */
+    td:last-child {
+      white-space: nowrap;
+      width: 220px;
+    }
+
+    /* --- LOGOUT BUTTON (opcional si lo agregas) --- */
+    .logout-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .6rem;
+      width: 100%;
+      background: var(--color-danger);
+      color: white;
+      padding: 0.8rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 1.5rem;
+      transition: background 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .logout-btn:hover { background: #d32f2f; }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h3>Panel de Control</h3>
+    <nav>
+      <ul>
+        <li><a th:href="@{/gerente}"><i class="fa-solid fa-house"></i> Inicio Gerente</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <h1><i class="fa-solid fa-warehouse"></i> Inventario</h1>
+
+    <div class="nav-tabs">
+      <a th:href="@{/gerente/inventario}" class="btn">
+        <i class="fas fa-box"></i> Inventario Activo
+      </a>
+      <a th:href="@{/gerente/inventario/inactivos}" class="btn ghost">
+        <i class="fas fa-archive"></i> Inventario Inactivo
+      </a>
+    </div>
+
+    <div class="action-buttons" style="margin-bottom: 20px;">
+      <a th:href="@{/gerente/inventario/crear}" class="btn">
+        <i class="fas fa-plus"></i> Nuevo Vehículo
+      </a>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Chasis</th>
+          <th>Marca</th>
+          <th>Modelo</th>
+          <th>Año</th>
+          <th>Color</th>
+          <th>Ubicación</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="inv : ${inventarios}">
+          <td th:text="${inv.idInventario}">1</td>
+          <td th:text="${inv.chasis}">---</td>
+          <td th:text="${inv.marca}">---</td>
+          <td th:text="${inv.modelo}">---</td>
+          <td th:text="${inv.anio}">2025</td>
+          <td th:text="${inv.color}">---</td>
+          <td th:text="${inv.ubicacionActual}">Bodega</td>
+          <td>
+            <span class="status-badge" th:classappend="${inv.activo ? 'status-active' : 'status-inactive'}">
+              <i class="fas" th:classappend="${inv.activo ? 'fa-check-circle' : 'fa-times-circle'}"></i>
+              <span th:text="${inv.activo ? 'Activo' : 'Inactivo'}"></span>
+            </span>
+          </td>
+          <td>
+            <div class="actions">
+              <a th:href="@{/gerente/inventario/editar/{id}(id=${inv.idInventario})}" class="btn ghost">
+                <i class="fas fa-edit"></i> Editar
+              </a>
+              <form th:action="@{/gerente/inventario/cambiar-estado/{id}(id=${inv.idInventario})}" method="post" style="display:inline;">
+                <button type="submit" class="btn ghost"
+                        th:onclick="'return confirm(\\'¿Estás seguro de ' + (${inv.activo} ? 'desactivar' : 'activar') + ' este vehículo?\\');'">
+                  <i class="fas" th:classappend="${inv.activo ? 'fa-toggle-on' : 'fa-toggle-off'}"></i>
+                  <span th:text="${inv.activo ? 'Desactivar' : 'Activar'}"></span>
+                </button>
+              </form>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+</body>
+</html>
+```

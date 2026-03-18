@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <title>Formulario Inventario</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+ <style>
+    /* ===== Variables ===== */
+    :root {
+      --color-bg: #111;
+      --color-sidebar: #000;
+      --color-card: #1e1e1e;
+      --color-primary: #FFD600;
+      --color-text: #f5f5f5;
+      --color-muted: #bbb;
+      --color-danger: #e53935;
+      --color-danger-hover: #c62828;
+      --radius: 10px;
+      --shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text);
+      margin: 0;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    h1, h2 { margin: 0; }
+
+    /* ===== Sidebar ===== */
+    .sidebar {
+      width: 240px;
+      background: var(--color-sidebar);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow);
+    }
+    .sidebar h3 {
+      color: var(--color-primary);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .sidebar nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .sidebar nav ul li { margin: .8rem 0; }
+    .sidebar nav ul li a {
+      text-decoration: none;
+      color: var(--color-muted);
+      display: block;
+      padding: .7rem 1rem;
+      border-radius: var(--radius);
+      transition: 0.3s;
+    }
+    .sidebar nav ul li a:hover {
+      background: var(--color-primary);
+      color: #000;
+    }
+
+    /* ===== Logout button ===== */
+    .logout-btn {
+      margin-top: 2rem;
+      background: var(--color-danger);
+      color: #fff;
+      padding: .8rem 1rem;
+      border: none;
+      border-radius: var(--radius);
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+    }
+    .logout-btn:hover { background: var(--color-danger-hover); }
+
+    /* ===== Main ===== */
+    .main {
+      flex: 1;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+    .main h1 {
+      color: var(--color-primary);
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+
+    /* ===== Card (form container) ===== */
+    .card {
+      background: var(--color-card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    /* ===== Formularios ===== */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    label {
+      font-weight: 600;
+      margin-bottom: .3rem;
+      display: block;
+    }
+    input, select {
+      width: 100%;
+      padding: .8rem 1rem;
+      border: none;
+      border-radius: var(--radius);
+      background: #2a2a2a;
+      color: var(--color-text);
+      font-size: 1rem;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+      transition: border 0.3s, background 0.3s;
+    }
+    input:focus, select:focus {
+      outline: none;
+      background: #333;
+      border: 1px solid var(--color-primary);
+    }
+
+    /* Estilos para checkbox */
+    .form-check {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .form-check input[type="checkbox"] {
+      width: auto;
+      margin-right: 0.5rem;
+    }
+    
+    .form-check label {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    /* ===== Botones ===== */
+    .btn {
+      background: var(--color-primary);
+      color: #000;
+      padding: .8rem 1.2rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s;
+      align-self: flex-start;
+    }
+    .btn:hover { background: #fcd800; }
+
+    /* ===== Footer ===== */
+    footer {
+      margin-top: 2rem;
+      color: var(--color-muted);
+      font-size: .85rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div>
+      <h3>Panel de Control</h3>
+      <nav>
+        <ul>
+          <li><a th:href="@{/gerente}"><i class="fa-solid fa-house"></i> Inicio</a></li>          
+          <li><a th:href="@{/gerente/inventario}"><i class="fa-solid fa-warehouse"></i> Inventario</a></li>          
+          <li><a href="/gerente/novedades"><i class="fa-solid fa-bullhorn"></i> Novedades</a></li>
+          <li><a href="/gerente/notificaciones"><i class="fa-solid fa-bell"></i> Notificaciones</a></li>
+
+        
+        </ul>
+      </nav>
+    </div>
+    <form th:action="@{/logout}" method="post">
+      <button type="submit" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</button>
+    </form>
+  </aside>
+
+  <!-- Contenido -->
+  <main class="main">
+    <h1><i class="fa-solid fa-warehouse"></i> Formulario Inventario</h1>
+
+    <section class="card form-box">
+      <form th:action="@{${inventario.idInventario != null} ? '/gerente/inventario/editar/' + ${inventario.idInventario} : '/gerente/inventario/crear'}"
+            th:object="${inventario}" method="post">
+        
+        <label>Marca:</label>
+        <input type="text" th:field="*{marca}" required/>
+
+        <label>Modelo:</label>
+        <input type="text" th:field="*{modelo}" required/>
+
+        <label>Año:</label>
+        <input type="number" th:field="*{anio}" required/>
+
+        <label>Ubicación Actual:</label>
+        <input type="text" th:field="*{ubicacionActual}" required/>
+
+        <div class="form-check">
+          <label>
+            <input type="checkbox" th:field="*{activo}" th:checked="${inventario.activo}"/>
+            Estado Activo
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>
