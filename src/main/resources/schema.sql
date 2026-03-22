@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-03-2026 a las 19:31:28
+-- Tiempo de generación: 21-03-2026 a las 13:22:15
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -317,7 +317,11 @@ INSERT INTO `mensaje` (`id`, `asunto`, `carpeta`, `contenido`, `eliminado`, `fec
 (77, 'GitHub Copilot: What’s in your free plan 🤖', 'inbox', 'You now have access to GitHub Copilot.\r\n\r\nThis email outlines what’s included in your free plan with GitHub Copilot and how to start using it in your editor and on github.com.\r\nCopilot Free includes access to frontier AI models from OpenAI and Anthropic with monthly usage limits.\r\n\r\nGet started with Copilot >: https://github.com/copilot\r\n\r\nWhat\'s included:\r\n\r\n* 50 agent mode requests a month: Use agent mode to debug issues, refactor code, and work through tasks in real time.\r\n* Model choice: Access frontier models from Anthropic and OpenAI.\r\n* Custom instructions: Guide Copilot\'s responses with your preferred style, conventions, or constraints.\r\n* MCP integrations: Integrate your tools and services using MCP servers. The GitHub MCP Server is available by default.\r\n* Work in your preferred IDE: Available in VS Code, Visual Studio, Xcode, JetBrains, Neovim, Azure Data Studio, Eclipse, and Raycast.\r\n* 2,000 code completions a month: Inline, context-aware code suggestions based on your repository and editor workspace.\r\n\r\nNot sure where to start? Try these Copilot Chat prompts >: https://docs.github.com/en/copilot/example-prompts-for-github-copilot-chat\r\n\r\nCopilot Settings\r\n\r\nTelemetry in your free version of GitHub Copilot is currently enabled. By default, code suggestions that match public code,\r\nincluding code references in the VS Code and github.com experience, are allowed. You can adjust both telemetry and code suggestion settings in: https://github.com/settings/copilot.\r\n\r\nPrivacy policy: https://docs.github.com/articles/github-privacy-statement\r\nTerms of use: https://github.com/customer-terms/github-copilot-product-specific-terms\r\nContact us: https://github.com/contact\r\n', b'0', '2026-03-03 00:17:20.000000', NULL, b'0', NULL, 29, NULL, NULL, NULL, b'0'),
 (78, 'jjjhjhjh', 'inbox', 'xscds', b'0', '2026-03-13 02:01:27.000000', NULL, b'1', 28, 1, NULL, NULL, NULL, b'0'),
 (79, 'jhjhjhjhj', 'sent', '.i.', b'0', '2026-03-13 02:21:26.000000', NULL, b'1', 28, 1, NULL, NULL, NULL, b'0'),
-(80, 'jhjhjhjhj', 'inbox', '.i.', b'0', '2026-03-13 02:21:26.000000', NULL, b'0', 28, 1, NULL, NULL, NULL, b'0');
+(80, 'jhjhjhjhj', 'inbox', '.i.', b'0', '2026-03-13 02:21:26.000000', NULL, b'0', 28, 1, NULL, NULL, NULL, b'0'),
+(81, 'complemento', 'sent', 'Hola', b'0', '2026-03-16 23:33:05.000000', NULL, b'1', 28, 8, NULL, NULL, NULL, b'0'),
+(82, 'complemento', 'inbox', 'Hola', b'0', '2026-03-16 23:33:05.000000', NULL, b'0', 28, 8, NULL, NULL, NULL, b'0'),
+(83, 'comepl', 'sent', 'hola', b'0', '2026-03-16 23:33:52.000000', NULL, b'1', 1, 8, NULL, NULL, NULL, b'0'),
+(84, 'comepl', 'inbox', 'hola', b'0', '2026-03-16 23:33:52.000000', NULL, b'0', 1, 8, NULL, NULL, NULL, b'0');
 
 -- --------------------------------------------------------
 
@@ -485,7 +489,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id_usuario`, `Nombre`, `Correo`, `contrasena`, `Rol_idRol`, `activo`) VALUES
-(1, 'wendy', 'wendy@gmail.com', '1234', 1, 1),
+(1, 'wendy', 'wendy@gmail.com', '', 1, 1),
 (2, 'Gerente General', 'gerente@autochecklist.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lKOKMjQNaG1wg4x6W', 2, 1),
 (3, 'rafa', 'rsaenz326@gmail.com', '123', 1, 1),
 (4, 'ricardo', 'ricardo@gmail.com', '1234', 1, 1),
@@ -717,7 +721,7 @@ ALTER TABLE `inventario`
 -- AUTO_INCREMENT de la tabla `mensaje`
 --
 ALTER TABLE `mensaje`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- AUTO_INCREMENT de la tabla `notificacion`
