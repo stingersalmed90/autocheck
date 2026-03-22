@@ -18,59 +18,52 @@ public class Vehiculo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idVehiculo")
+    @Column(name = "id") // ✅ CORREGIDO
     private Long idVehiculo;
 
-    @Column(name = "Chasis", nullable = false, length = 100)
+    @Column(name = "chasis", nullable = false, length = 100)
     private String chasis;
 
-    @Column(name = "Modelo", nullable = false, length = 100)
+    @Column(name = "modelo", nullable = false, length = 100)
     private String modelo;
 
-    @Column(name = "Marca", nullable = false, length = 100)
+    @Column(name = "marca", nullable = false, length = 100)
     private String marca;
 
-    @Column(name = "Anio")
+    @Column(name = "anio")
     private Integer anio;
 
-    @Column(name = "Precio")
+    @Column(name = "precio")
     private Double precio;
 
-    @Column(name = "Cilindrada", length = 50)
+    @Column(name = "cilindrada", length = 50)
     private String cilindrada;
 
-    @Column(name = "TipoCombustible", length = 50)
+    @Column(name = "tipo_combustible", length = 50)
     private String tipoCombustible;
 
-    @Column(name = "Transmision", length = 50)
+    @Column(name = "transmision", length = 50)
     private String transmision;
 
-    @Column(name = "Descripcion", columnDefinition = "TEXT")
+    @Column(name = "descripcion", columnDefinition = "TEXT")
     private String descripcion;
 
-    /* ================================
-       ✅ IMAGEN GUARDADA EN BD
-       ================================ */
     @Lob
-    @Column(name = "Imagen", columnDefinition = "LONGBLOB")
+    @Column(name = "imagen", columnDefinition = "LONGBLOB")
     private byte[] imagen;
 
-    @Column(name = "FechaCreacion",
+    @Column(name = "fecha_creacion",
             nullable = false,
             columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime fechaCreacion;
 
     @ManyToOne
-    @JoinColumn(name = "Inventario_IdInventario")
+    @JoinColumn(name = "inventario_id_inventario")
     private Inventario inventario;
 
-    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
+    @Column(name = "activo", nullable = false)
     private boolean activo = true;
-
-    public Vehiculo() {
-        this.fechaCreacion = LocalDateTime.now();
-    }
-
+}
     // ================= GETTERS & SETTERS =================
 
     public Long getIdVehiculo() {
