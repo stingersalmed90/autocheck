@@ -489,7 +489,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id_usuario`, `Nombre`, `Correo`, `contrasena`, `Rol_idRol`, `activo`) VALUES
-(1, 'wendy', 'wendy@gmail.com', '1234', 1, 1),
+(1, 'wendy', 'wendy@gmail.com', '123', 1, 1),
 (2, 'Gerente General', 'gerente@autochecklist.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lKOKMjQNaG1wg4x6W', 2, 1),
 (3, 'rafa', 'rsaenz326@gmail.com', '123', 1, 1),
 (4, 'ricardo', 'ricardo@gmail.com', '1234', 1, 1),
